@@ -1,0 +1,690 @@
+###Load packages to run NS models
+library(RMark)
+library(tidyverse)
+library(readr)
+library(msm)
+
+###Load the SPEI data INP file
+spei_data<- read.csv("nest_survival/data/INP_20220921.csv", header = TRUE)
+
+###Check the headers. Sometimes column name changes when reading csv files. 
+head(spei_data)
+summary(spei_data)
+
+###Make year a factor variable
+is.factor(spei_data$Year)
+spei_data$Year<-as.factor(spei_data$Year)
+is.factor(spei_data$Year) #it is now a factor variable
+
+###Make Site a factor variable
+is.factor(spei_data$Site)
+spei_data$Site<-as.factor(spei_data$Site)
+is.factor(spei_data$Site) #now a factor variable
+
+###Square the sea ice variables. (Quadratic term and effect). This is adding another column.
+spei_data$Win_Hi2<-spei_data$Win_Hi^2
+spei_data$Win_Lo2<-spei_data$Win_Lo^2
+spei_data$Spr_Hi2<-spei_data$Spr_Hi^2
+spei_data$Spr_Lo2<-spei_data$Spr_Lo^2
+head(spei_data) #these two columns are now in the dataframe
+
+
+#fit nest survival models with taking away the intercept and using initial values
+##### NEST SURVIVAL #####
+### From 1994-2021 the earliest julian start day is 134 and the latest is 209. 
+### I am taking the difference between these two to get the nesting season for all years (nocc). equals 75
+###Nest Survival covariate
+run.modelst = function()
+{
+  # 1. constant daily survival rate model (null)
+  S.dot = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.dot",
+               model.parameters = list(S=list(formula = ~ 1)))
+  
+  # 2. site + year
+  S.sy = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sy", groups = c("Site","Year"),
+              model.parameters = list(S=list(formula = ~ Site + Year))) 
+  
+  # 3. site + year + init
+  S.syi = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syi", groups = c("Site","Year"),
+               model.parameters = list(S=list(formula = ~ Site + Year + Init)),
+               initial = S.sy)
+  
+  # 4. site + year + nestage
+  S.syn = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syn", groups = c("Site","Year"),
+                model.parameters = list(S=list(formula = ~ Site + Year + NestAge)),
+                initial = S.sy)
+  
+  # 5. site + year + init + nestage
+  S.syin = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syin", groups = c("Site","Year"),
+                 model.parameters = list(S=list(formula = ~ Site + Year + Init + NestAge)),
+                 initial = S.syi)
+  
+  # 6. site + year + init + site * init
+  S.syi.sxi = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syi.sxi", groups = c("Site","Year"),
+                   model.parameters = list(S=list(formula = ~ Site + Year + Init + Site*Init)),
+                   initial = S.syi)
+  
+  # 7. site + year + nestage + site * nestage
+  S.syn.sxn = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syn.sxn", groups = c("Site","Year"),
+                     model.parameters = list(S=list(formula = ~ Site + Year + NestAge + Site*NestAge)),
+                     initial = S.syn)
+  
+  # 8. site + year + init + nestage + site * init
+  S.syin.sxi = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syin.sxi", groups = c("Site","Year"),
+                     model.parameters = list(S=list(formula = ~ Site + Year + Init + NestAge + Site*Init)),
+                     initial = S.syin)
+  
+  # 9. site + year + init + nestage + site * nestage
+  S.syin.sxn = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syin.sxn", groups = c("Site","Year"),
+                      model.parameters = list(S=list(formula = ~ Site + Year + Init + NestAge + Site*NestAge)),
+                      initial = S.syin)
+  
+  # 10. site + year + init + nestage + site * init + site * nestage
+  S.syin.sxi.sxn = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.syina.sxi.sxna", groups = c("Site","Year"),
+                          model.parameters = list(S=list(formula = ~ Site + Year + Init + NestAge + Site*Init + Site*NestAge)),
+                          initial = S.syin.sxi)
+  
+  # 11. site * year
+  S.sxy = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy", groups = c("Site","Year"),
+               model.parameters = list(S=list(formula = ~ -1 + Site:Year)))
+  
+  # 12. site * year + init
+  S.sxy.i = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.i", groups = c("Site","Year"),
+                 model.parameters = list(S=list(formula = ~ -1 + Site:Year + Init)),
+                 initial = S.sxy)
+  
+  # 13. site * year + nestage
+  S.sxy.n = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.n", groups = c("Site","Year"),
+                  model.parameters = list(S=list(formula = ~ -1 + Site:Year + NestAge)),
+                  initial = S.sxy)
+  
+  # 14. site * year + site * init
+  S.sxy.sxi = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.sxi", groups = c("Site","Year"),
+                   model.parameters = list(S=list(formula = ~ -1 + Site:Year + Site:Init)),
+                   initial = S.sxy)
+  
+  # 15. site * year + site * nestage
+  S.sxy.sxn = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.sxn", groups = c("Site","Year"),
+                    model.parameters = list(S=list(formula = ~ -1 + Site:Year + Site:NestAge)),
+                    initial = S.sxy)
+  
+  # 16. site * year + init + nestge
+  S.sxy.in = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.in", groups = c("Site","Year"),
+                   model.parameters = list(S=list(formula = ~ -1 + Site:Year + Init + NestAge)),
+                   initial = S.sxy.i)
+  
+  # 17. site * year + init + nestage + site * init
+  S.sxy.ina.sxi = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.ina.sxi", groups = c("Site","Year"),
+                       model.parameters = list(S=list(formula = ~ -1 + Site:Year + Init + NestAge + Site:Init)),
+                       initial = S.sxy.in)
+  
+  # 18. site * year + init + nestage + site * nestage
+  S.sxy.ina.sxn = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.ina.sxn", groups = c("Site","Year"),
+                        model.parameters = list(S=list(formula = ~ -1 + Site:Year + Init + NestAge + Site:NestAge)),
+                        initial = S.sxy.in)
+  
+  # 19. site * year + init + nestage + site*init + site*nestage
+  S.sxy.in.sxi.sxn = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.sxy.in.sxi.sxn", groups = c("Site","Year"),
+                            model.parameters = list(S=list(formula = ~ -1 + Site:Year + Site:Init + Site:NestAge)),
+                            initial = S.sxy.sxi)
+  
+  
+  
+  # Return model table and list of models
+  
+  return(collect.models())
+}
+
+# Fit models
+model.resultst=run.modelst()
+
+# Look at model results
+model.resultst
+magicoutout <- model.resultst
+
+##to look at specific model output
+#write the model in the console
+model.resultst$S.dot #1
+model.resultst$S.sy #2
+model.resultst$S.syi #3
+model.resultst$S.syn #4
+model.resultst$S.syin #5
+model.resultst$S.syi.sxi #6
+model.resultst$S.syn.sxn #7
+model.resultst$S.syin.sxi #8
+model.resultst$S.syin.sxn #9
+model.resultst$S.syin.sxi.sxn #10
+model.resultst$S.sxy #11
+model.resultst$S.sxy.i #12
+model.resultst$S.sxy.n #13
+model.resultst$S.sxy.sxi #14
+model.resultst$S.sxy.sxn #15
+model.resultst$S.sxy.in #16 top model w=0.42
+model.resultst$S.sxy.ina.sxi #17
+model.resultst$S.sxy.ina.sxn #18 2nd top model w=0.20
+model.resultst$S.sxy.in.sxi.sxn #19
+
+###All the above models ran completely. I checked every model output and the they looked alright.
+# There were no funky standard errors or CIs on the Beta estimates
+
+###Write the results output into excel (csv)
+sp_temp_modeloutput1 <- model.resultst$model.table
+write.csv(sp_temp_modeloutput1, "nest_survival/output/sp_temp_modeloutput1.csv")
+
+
+
+
+
+### NEST SURVIVAL ###
+### Here I am taking the best supported covariates from stage 1 and incorporating them to best adult survival models from
+### previous papers
+run.modelst2 = function()
+{
+  # 1. constant 
+  S.dot = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.dot",
+               model.parameters = list(S=list(formula = ~ 1)))
+  
+  # 2. sxt + sxw + winhi + init + nestage + site
+  S.stswwhins = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.stswwhins", groups = "Site",
+                    model.parameters = list(S=list(formula = ~ sxt + sxw + Win_Hi + Init + NestAge + Site)))
+  
+  # 3. sxt + sxw + winhi + winhi2 + init + nestage + site
+  S.stswwhwh2ins = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.stswwhwh2ins", groups = "Site",
+                       model.parameters = list(S=list(formula = ~ sxt + sxw + Win_Hi + Win_Hi2 + Init + NestAge + Site)))
+  
+  # 4. ice.severity.index + init + nestage + site
+  S.wsiins = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.wsiins", groups = "Site",
+                 model.parameters = list(S=list(formula = ~ wsi + Init + NestAge + Site)))
+  
+  # 5. winhi + winhi2 + init + nestage + site
+  S.whwh2ins = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.whwh2ins", groups = "Site",
+                   model.parameters = list(S=list(formula = ~ Win_Hi + Win_Hi2 + Init + NestAge + Site)))
+  
+  # 6. winhi + init + nestage + site
+  S.whins = mark(spei_data, nocc = 75, model = "Nest", model.name = "S.whins", groups = "Site",
+                model.parameters = list(S=list(formula = ~ Win_Hi + Init + NestAge + Site)))
+  # Return model table and list of models
+  
+  return(collect.models())
+}
+
+# Fit models
+model.resultst2=run.modelst2()
+
+model.resultst2
+
+##to look at specific model output
+#write the model in the console
+model.resultst2$S.dot
+model.resultst2$S.stswwhins # 2nd top model w=.1
+model.resultst2$S.stswwhwh2ins # top model w=0.899
+model.resultst2$S.wsiins
+model.resultst2$S.whwh2ins
+model.resultst2$S.whins
+
+
+###Write the results output into excel (csv)
+sp_temp_modeloutput2 <- model.resultst2$model.table
+write.csv(sp_temp_modeloutput2, "nest_survival/output/sp_temp_modeloutput2.csv")
+
+
+###Add top model to the environment with simple name
+topmodel <- model.resultst2$S.stswwhwh2ins
+
+
+###Look at data statistics summary to see what the ice values are.
+summary(spei_data)
+##Win_Hi: min=0   max=79
+##Win_Hi2: min=0   max=6241
+##sxt: min=0   max=7
+##sxw: min=0   max=5
+
+
+
+####GRAPH THE QUADRATIC EFFECT OF HIGH ICE CONDTITIONS
+w2fc <- find.covariates(topmodel, spei_data)
+
+###assign appropriate nest ages
+w2fc$value[c(741:764, 815:838)] <- 1:24
+
+###assign high ice days range (0:79) to winter days
+w2fc$value[c(297:370, 371:444)] <- seq(0, 79, length = 74)
+
+##***create a vector of 0:79 and then create another vector
+##* of those squared. (both 74 values)
+highdays <- seq(0, 79, length = 74)
+highdays2 <- highdays^2
+
+###assign high ice days range (0:79) to winter days
+w2fc$value[c(445:518, 519:592)] <- highdays2
+
+###create a design matrix with the values you just changed above
+w2design <- fill.covariates(topmodel, w2fc)
+
+###Obtain real estimates
+w2.survival <- compute.real(topmodel, design = w2design)
+
+###Insert number of high ice days
+w2.survival$high_ice_days[c(1:74, 75:148)] <- seq(0, 79, length = 74)
+
+###Add site for group variable
+w2.survival$Site[1:74] <- ("Kigigak Island")
+w2.survival$Site[75:148] <- ("Utqiaġvik")
+
+###Change column names
+colnames(w2.survival) <- c("dsr", "se", "lci", "uci","fixed", "Win_Hi2", "Site")
+
+###Make site a factor variable
+is.factor(w2.survival$Site)
+w2.survival$Site<-as.factor(w2.survival$Site)
+is.factor(w2.survival$Site) #now a factor variable
+
+###Graph the best supported model for high ice days
+library(ggplot2)
+
+ggplot(w2.survival, aes(x = Win_Hi2, y = dsr, color = Site)) +
+  geom_ribbon(aes(ymin = lci, ymax = uci), alpha = 0.13) +
+  geom_line() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = c(0.75, 0.3)) +
+  xlab("Extreme High Ice Days") + ylab("Daily Nest Survival Probability") +
+  theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+ggsave("high_ice2.jpg",width = 8, height = 6, dpi = 220)
+
+
+
+
+
+
+####Plot spring extreme temp
+#Summary
+#sxt: min=0 max=7
+#sxw: min=0 max=5
+
+spfc <- find.covariates(topmodel, spei_data)
+spfc$value[c(741:764, 815:838)] <- 1:24
+
+###assign sxt values 0:7
+spfc$value[c(1:74, 75:148)] <- seq(0, 7, length = 74)
+
+###assign sxw values 0:5
+#spfc$value[c(149:222, 223:296)] <- seq(0, 5, length = 74)
+
+###create a design matrix with the values you just changed above
+spdesign <- fill.covariates(topmodel, spfc)
+
+###Obtain real estimates
+sp.survival <- compute.real(topmodel, design = spdesign)
+
+###Insert number spring extremes
+sp.survival$spring_extreme[c(1:74, 75:148)] <- seq(0, 7, length = 74)
+
+###Add site for group variable
+sp.survival$Site[1:74] <- ("Kigigak Island")
+sp.survival$Site[75:148] <- ("Utqiaġvik")
+
+###Change column names
+colnames(sp.survival) <- c("dsr", "se", "lci", "uci","fixed", "spring_extreme_temp", "Site")
+
+###Make site a factor variable
+is.factor(sp.survival$Site)
+sp.survival$site<-as.factor(sp.survival$Site)
+is.factor(sp.survival$Site) #now a factor variable
+
+ggplot(sp.survival, aes(x = spring_extreme_temp, y = dsr, color = Site)) +
+  geom_ribbon(aes(ymin = lci, ymax = uci), alpha = 0.13) +
+  geom_line() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = c(0.75, 0.3)) +
+  xlab("Spring Extreme Temperature") + ylab("Daily Nest Survival Probability") +
+  theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+ggsave("spring_extreme_temp.jpg",width = 8, height = 6, dpi = 220)
+
+
+
+
+
+
+
+
+###Spring extreme wind
+spwfc <- find.covariates(topmodel, spei_data)
+spwfc$value[c(741:764, 815:838)] <- 1:24
+
+###assign sxt values 0:7
+#spwfc$value[c(1:74, 75:148)] <- seq(0, 7, length = 74)
+
+###assign sxw values 0:5
+spwfc$value[c(149:222, 223:296)] <- seq(0, 5, length = 74)
+
+###create a design matrix with the values you just changed above
+spwdesign <- fill.covariates(topmodel, spfc)
+
+###Obtain real estimates
+spw.survival <- compute.real(topmodel, design = spdesign)
+
+###Insert number spring extremes
+spw.survival$spring_extreme[c(1:74, 75:148)] <- seq(0, 5, length = 74)
+
+###Add site for group variable
+spw.survival$Site[1:74] <- ("Kigigak Island")
+spw.survival$Site[75:148] <- ("Utqiaġvik")
+
+###Change column names
+colnames(sp.survival) <- c("dsr", "se", "lci", "uci","fixed", "spring_extreme_wind", "Site")
+
+###Make site a factor variable
+is.factor(sp.survival$Site)
+sp.survival$site<-as.factor(sp.survival$Site)
+is.factor(sp.survival$Site) #now a factor variable
+
+ggplot(sp.survival, aes(x = spring_extreme_wind, y = dsr, color = Site)) +
+  geom_ribbon(aes(ymin = lci, ymax = uci), alpha = 0.13) +
+  geom_line() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = c(0.75, 0.3)) +
+  xlab("Spring Extreme Wind") + ylab("Daily Nest Survival Probability") +
+  theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+ggsave("spring_extreme_wind.jpg",width = 8, height = 6, dpi = 220)
+
+
+
+
+
+##Create a new dataframe of the nest initiation date values prior to making a graph
+ifc <- find.covariates(topmodel, spei_data)
+
+###assign 1:24 for nestages on both sites
+ifc$value[c(741:764, 815:838)] <- 1:24
+
+###assign nest initiation date range
+ifc$value[c(593:666, 667:740)] <- seq(128, 187, length = 74)
+
+###create a design matrix with the values you just changed above
+idesign <- fill.covariates(topmodel, ifc)
+
+###Obtain real estimates
+init.survival <- compute.real(topmodel, design = idesign)
+
+###Insert number of high ice days
+init.survival$Init[c(1:74, 75:148)] <- seq(128, 187, length = 74)
+
+###Add site for group variable
+init.survival$site[1:74] <- ("Kigigak Island")
+init.survival$site[75:148] <- ("Utqiaġvik")
+
+###Change column names
+colnames(init.survival) <- c("dsr", "se", "lci", "uci","fixed", "init", "Site")
+
+###Make site a factor variable
+is.factor(init.survival$Site)
+init.survival$Site<-as.factor(init.survival$Site)
+is.factor(init.survival$Site) #now a factor variable
+
+
+###Graph 
+library(ggplot2)
+
+ggplot(init.survival, aes(x = init, y = dsr, color = Site)) +
+  geom_ribbon(aes(ymin = lci, ymax = uci), alpha = 0.13) +
+  geom_line() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = c(0.75, 0.3)) +
+  xlab("Nest Initiation Date") + ylab("Daily Nest Survival Probability") +
+  theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+ggsave("nest_initiation_date.jpg",width = 8, height = 6, dpi = 220)
+
+
+
+#######################################################
+######Work with stage 1 best model to get overall 24 day cumulative nest success.
+
+
+###Use find.covariates to get dataframe of mean individual covariates
+firstmodel <- model.resultst$S.sxy.in
+ffc <- find.covariates(firstmodel, spei_data)
+
+###Build a design matrix for nest ages 1:24, which is the incubation period until hatch for Specs
+###1:24 are ages for specs. the following code assign's ages 1:24 for nest age for each year/site
+#fc <- find.covariates(final_top_model, spei_data)
+ffc$value[2517:2540] <- 1:24 #1994, assign nest ages 1:24 for mean covariate values of nest ages 1:24
+ffc$value[2591:2614] <- 1:24 #1995, we start at a huge number but cinit was first computed
+ffc$value[2665:2688] <- 1:24 #1996
+ffc$value[2739:2762] <- 1:24 #1997
+ffc$value[2813:2836] <- 1:24 #1998
+ffc$value[2887:2910] <- 1:24 #1999
+ffc$value[2961:2984] <- 1:24 #2000
+ffc$value[3035:3058] <- 1:24 #2001
+ffc$value[3109:3132] <- 1:24 #2002
+ffc$value[3183:3206] <- 1:24 #2003
+ffc$value[3257:3280] <- 1:24 #2004
+ffc$value[3331:3354] <- 1:24 #2005
+ffc$value[3405:3428] <- 1:24 #2006
+ffc$value[3479:3502] <- 1:24 #2007
+ffc$value[3553:3576] <- 1:24 #2008
+ffc$value[3627:3650] <- 1:24 #2009
+ffc$value[3701:3724] <- 1:24 #2010
+ffc$value[3775:3798] <- 1:24 #2011
+ffc$value[3849:3872] <- 1:24 #2012
+ffc$value[3923:3946] <- 1:24 #2013
+ffc$value[3997:4020] <- 1:24 #2014
+ffc$value[4071:4094] <- 1:24 #2015
+ffc$value[4145:4168] <- 1:24 #2019
+ffc$value[4219:4242] <- 1:24 #2021
+ffc$value[4293:4316] <- 1:24 #u2010 the 'u-' stands for site "utq"
+ffc$value[4367:4390] <- 1:24 #u2011
+ffc$value[4441:4464] <- 1:24 #u2012
+ffc$value[4515:4538] <- 1:24 #u2013
+ffc$value[4589:4612] <- 1:24 #u2014
+ffc$value[4663:4686] <- 1:24 #u2015
+ffc$value[4737:4760] <- 1:24 #u2016
+ffc$value[4811:4834] <- 1:24 #u2017
+ffc$value[4885:4908] <- 1:24 #u2018
+ffc$value[4959:4982] <- 1:24 #u2019
+
+###fill design matrix with values  of interest that we just changed above.
+fdesign <- fill.covariates(firstmodel, ffc)
+
+
+###extract the 1st 24 nest ages for each year from design matrix
+ffull.survival <- compute.real(firstmodel, design = fdesign, vcv = TRUE)
+freal <- ffull.survival$real
+vcv <- ffull.survival$vcv.real
+
+
+###the function deltamethod.special computes delta-method std errors.
+###After you run the function you will get sqrt of the variance.
+###to get variance you just square that value
+library(msm)
+###these codes below will now get the s.
+s1994 <- deltamethod.special("prod",ffull.survival$real[1:24],ffull.survival$vcv.real[1:24,1:24])
+s1995 <- deltamethod.special("prod",ffull.survival$real[75:98],ffull.survival$vcv.real[75:98,75:98])                                                                                    
+s1996 <- deltamethod.special("prod",ffull.survival$real[149:172],ffull.survival$vcv.real[149:172,149:172])
+s1997 <- deltamethod.special("prod",ffull.survival$real[223:246],ffull.survival$vcv.real[223:246,223:246])
+s1998 <- deltamethod.special("prod",ffull.survival$real[297:320],ffull.survival$vcv.real[297:320,297:320])
+s1999 <- deltamethod.special("prod",ffull.survival$real[371:394],ffull.survival$vcv.real[371:394,371:394])
+s2000 <- deltamethod.special("prod",ffull.survival$real[445:468],ffull.survival$vcv.real[445:468,445:468])
+s2001 <- deltamethod.special("prod",ffull.survival$real[519:542],ffull.survival$vcv.real[519:542,519:542])
+s2002 <- deltamethod.special("prod",ffull.survival$real[593:616],ffull.survival$vcv.real[593:616,593:616])
+s2003 <- deltamethod.special("prod",ffull.survival$real[667:690],ffull.survival$vcv.real[667:690,667:690])
+s2004 <- deltamethod.special("prod",ffull.survival$real[741:764],ffull.survival$vcv.real[741:764,741:764])
+s2005 <- deltamethod.special("prod",ffull.survival$real[815:838],ffull.survival$vcv.real[815:838,815:838])
+s2006 <- deltamethod.special("prod",ffull.survival$real[889:912],ffull.survival$vcv.real[889:912,889:912])
+s2007 <- deltamethod.special("prod",ffull.survival$real[963:986],ffull.survival$vcv.real[963:986,963:986])
+s2008 <- deltamethod.special("prod",ffull.survival$real[1037:1060],ffull.survival$vcv.real[1037:1060,1037:1060])
+s2009 <- deltamethod.special("prod",ffull.survival$real[1111:1134],ffull.survival$vcv.real[1111:1134,1111:1134])
+s2010 <- deltamethod.special("prod",ffull.survival$real[1185:1208],ffull.survival$vcv.real[1185:1208,1185:1208])
+s2011 <- deltamethod.special("prod",ffull.survival$real[1259:1282],ffull.survival$vcv.real[1259:1282,1259:1282])
+s2012 <- deltamethod.special("prod",ffull.survival$real[1333:1356],ffull.survival$vcv.real[1333:1356,1333:1356])
+s2013 <- deltamethod.special("prod",ffull.survival$real[1407:1430],ffull.survival$vcv.real[1407:1430,1407:1430])
+s2014 <- deltamethod.special("prod",ffull.survival$real[1481:1504],ffull.survival$vcv.real[1481:1504,1481:1504])
+s2015 <- deltamethod.special("prod",ffull.survival$real[1555:1578],ffull.survival$vcv.real[1555:1578,1555:1578])
+s2019 <- deltamethod.special("prod",ffull.survival$real[1629:1652],ffull.survival$vcv.real[1629:1652,1629:1652])
+s2021 <- deltamethod.special("prod",ffull.survival$real[1703:1726],ffull.survival$vcv.real[1703:1726,1703:1726])
+s2010u <- deltamethod.special("prod",ffull.survival$real[1777:1800],ffull.survival$vcv.real[1777:1800,1777:1800])
+s2011u <- deltamethod.special("prod",ffull.survival$real[1851:1874],ffull.survival$vcv.real[1851:1874,1851:1874])
+s2012u <- deltamethod.special("prod",ffull.survival$real[1925:1948],ffull.survival$vcv.real[1925:1948,1925:1948])
+s2013u <- deltamethod.special("prod",ffull.survival$real[1999:2022],ffull.survival$vcv.real[1999:2022,1999:2022])
+s2014u <- deltamethod.special("prod",ffull.survival$real[2073:2096],ffull.survival$vcv.real[2073:2096,2073:2096])
+s2015u <- deltamethod.special("prod",ffull.survival$real[2147:2170],ffull.survival$vcv.real[2147:2170,2147:2170])
+s2016u <- deltamethod.special("prod",ffull.survival$real[2221:2244],ffull.survival$vcv.real[2221:2244,2221:2244])
+s2017u <- deltamethod.special("prod",ffull.survival$real[2295:2318],ffull.survival$vcv.real[2295:2318,2295:2318])
+s2018u <- deltamethod.special("prod",ffull.survival$real[2369:2392],ffull.survival$vcv.real[2369:2392,2369:2392])
+s2019u <- deltamethod.special("prod",ffull.survival$real[2443:2466],ffull.survival$vcv.real[2443:2466,2443:2466])
+
+###Obtain the the dsr estimates for nest ages 1:24
+survival.24 <- compute.real(firstmodel, design = fdesign)[c(1:24,
+                                                                75:98,
+                                                                149:172,
+                                                                223:246,
+                                                                297:320,
+                                                                371:394,
+                                                                445:468,
+                                                                519:542,
+                                                                593:616,
+                                                                667:690,
+                                                                741:764,
+                                                                815:838,
+                                                                889:912,
+                                                                963:986,
+                                                                1037:1060,
+                                                                1111:1134,
+                                                                1185:1208,
+                                                                1259:1282,
+                                                                1333:1356,
+                                                                1407:1430,
+                                                                1481:1504,
+                                                                1555:1578,
+                                                                1629:1652,
+                                                                1703:1726,
+                                                                1777:1800,
+                                                                1851:1874,
+                                                                1925:1948,
+                                                                1999:2022,
+                                                                2073:2096,
+                                                                2147:2170,
+                                                                2221:2244,
+                                                                2295:2318,
+                                                                2369:2392,
+                                                                2443:2466), ]
+
+###Get the product of the 24 nest ages to get cumulative nest success probability
+###There should be 34 of this. 24 for kigigak island, 10 for Utqiagvik.
+product1994 <- prod(survival.24$estimate[1:24]) #1
+product1995 <- prod(survival.24$estimate[25:48]) #2
+product1996 <- prod(survival.24$estimate[49:72]) #3
+product1997 <- prod(survival.24$estimate[73:96]) #4
+product1998 <- prod(survival.24$estimate[97:120]) #5
+product1999 <- prod(survival.24$estimate[121:144]) #6
+product2000 <- prod(survival.24$estimate[145:168]) #7
+product2001 <- prod(survival.24$estimate[169:192]) #8
+product2002 <- prod(survival.24$estimate[193:216]) #9
+product2003 <- prod(survival.24$estimate[217:240]) #10
+product2004 <- prod(survival.24$estimate[241:264]) #11
+product2005 <- prod(survival.24$estimate[265:288]) #12
+product2006 <- prod(survival.24$estimate[289:312]) #13
+product2007 <- prod(survival.24$estimate[313:336]) #14
+product2008 <- prod(survival.24$estimate[337:360]) #15
+product2009 <- prod(survival.24$estimate[361:384]) #16
+product2010 <- prod(survival.24$estimate[385:408]) #17
+product2011 <- prod(survival.24$estimate[409:432]) #18
+product2012 <- prod(survival.24$estimate[433:456]) #19
+product2013 <- prod(survival.24$estimate[457:480]) #20
+product2014 <- prod(survival.24$estimate[481:504]) #21
+product2015 <- prod(survival.24$estimate[505:528]) #22
+product2019 <- prod(survival.24$estimate[529:552]) #23
+product2021 <- prod(survival.24$estimate[553:576]) #24
+product2010u <- prod(survival.24$estimate[577:600]) #25
+product2011u <- prod(survival.24$estimate[601:624]) #26
+product2012u <- prod(survival.24$estimate[625:648]) #27
+product2013u <- prod(survival.24$estimate[649:672]) #28
+product2014u <- prod(survival.24$estimate[673:696]) #29
+product2015u <- prod(survival.24$estimate[697:720]) #30
+product2016u <- prod(survival.24$estimate[721:744]) #31
+product2017u <- prod(survival.24$estimate[745:768]) #32
+product2018u <- prod(survival.24$estimate[769:792]) #33
+product2019u <- prod(survival.24$estimate[793:816]) #34
+
+
+###create a dataframe of the products of the 24 nest ages above
+library(data.table)
+probsuccess <- c(product1994,product1995,product1996,product1997,product1998,product1999,product2000,
+                 product2001,product2002,product2003,product2004,product2005,product2006,product2007,
+                 product2008,product2009,product2010,product2011,product2012,product2013,product2014,
+                 product2015,product2019,product2021,product2010u,product2011u,product2012u,product2013u,
+                 product2014u,product2015u,product2016u,product2017u,product2018u,product2019u)
+probsuccess <- as.data.frame(probsuccess)
+
+
+###create data frame for the square-root of the variance for each year and site
+sqrt_s <- c(s1994,s1995,s1996,s1997,s1998,s1999,s2000,s2001,
+            s2002,s2003,s2004,s2005,s2006,s2007,s2008,s2009,s2010,
+            s2011,s2012,s2013,s2014,s2015,s2019,s2021,s2010u,s2011u,
+            s2012u,s2013u,s2014u,s2015u,s2016u,s2017u,s2018u,s2019u)
+sqrt_s <- as.data.frame(sqrt_s)
+
+###combine probsuccess and sqrt_s to get a dataframe where you can work with to get lower and upper CI
+data <- cbind(probsuccess,sqrt_s)
+data$lci <- data$probsuccess - 1.96*(data$sqrt_s/sqrt(24))
+data$uci <- data$probsuccess + 1.96*(data$sqrt_s/sqrt(24))
+
+
+####YOU CAN FINALLY PLOT THIS DAMN FIGURE####
+
+###Add site and year to data frame
+data$site <- c("kig","kig","kig","kig","kig","kig",
+               "kig","kig","kig","kig","kig","kig",
+               "kig","kig","kig","kig","kig","kig",
+               "kig","kig","kig","kig","kig","kig",
+               "utq","utq","utq","utq","utq",
+               "utq","utq","utq","utq","utq")
+
+data$year <- c("1994","1995","1996","1997","1998","1999",
+               "2000","2001","2002","2003","2004","2005",
+               "2006","2007","2008","2009","2010","2011",
+               "2012","2013","2014","2015","2019","2021",
+               "2010","2011","2012","2013","2014",
+               "2015","2016","2017","2018","2019")
+
+
+data$probsuccess<-as.numeric(data$probsuccess)
+###plot
+ggplot(data, aes(x = year, y = probsuccess, color = site)) +
+  #geom_ribbon(aes(ymin = lcl, ymax = ucl), alpha = 0.13) +
+  geom_errorbar(aes(ymin = lci, ymax = uci, width = 0.4)) +
+  geom_point() +
+  geom_hline(yintercept = mean(data$probsuccess[1:24]), color = "red", lty = "dashed") +
+  geom_hline(yintercept = mean(data$probsuccess[25:34]), color = "blue", lty = "dashed") +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = c(0.75, 0.3)) +
+  xlab("Year") + ylab("cumuluative nest succes (24-day)") +
+  theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(axis.text.x = element_text(angle = 40, hjust = 1))
+ggsave("nest_success_prob.jpg",width = 8, height = 6, dpi = 220)
+
+
+###Average nest success probability between sites
+kignestsuccess <- mean(data$probsuccess[1:24]) ##0.674130129
+utqnestsuccess <- mean(data$probsuccess[25:34]) ##0.7461755994
+
+

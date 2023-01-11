@@ -1,0 +1,3 @@
+"","S","model","npar","AICc","DeltaAICc","weight","Deviance"
+"1","~-1 + cinit + NestAge + Site:Year","S(~-1 + cinit + NestAge + Site:Year)",36,4003.59415065004,0,1,3931.5269
+"2","~Site + Win_Lo + Win_Lo2 + Site * Win_Lo + Site * Win_Lo2","S(~Site + Win_Lo + Win_Lo2 + Site * Win_Lo + Site * Win_Lo2)",6,4132.68981891128,129.095668261245,0,4120.6877

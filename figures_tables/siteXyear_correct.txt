@@ -1,0 +1,643 @@
+
+   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  001
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   This version was compiled by GCC version 9.2.0 using the options: 
+     -cpp -iprefix c:\tdm-gcc-64\gcc64\gcc\bin\../lib/gcc/x86_64-w64-mingw32/9.2.0/
+     -D_MT -U_REENTRANT -D IEEE -D DBLEPRECISION -m64 -mtune=generic -march=x86-64
+     -mthreads -O2 -fimplicit-none -fbounds-check -funroll-loops -ftree-vectorize
+     -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
+     -frounding-math -fsignaling-nans -fopenmp.
+
+   This problem will use 11 of 12 possible threads.
+
+
+  INPUT --- proc title ;
+
+   CPU Time for the last procedure was 0.02 seconds.     
+
+
+  INPUT --- proc chmatrix occasions= 75 groups= 31 etype= Nest Nodes= 
+  INPUT --- 101 ICMeans NoHist hist=  2570 ;
+
+  INPUT ---    time interval 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  INPUT ---    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1  1 1 1 1 1 1 1 1 1 1 1 1 1 
+  INPUT ---    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ;
+
+  INPUT ---    glabel(1)=Year1994.Sitekig;
+
+  INPUT ---    glabel(2)=Year1995.Sitekig;
+
+  INPUT ---    glabel(3)=Year1996.Sitekig;
+
+  INPUT ---    glabel(4)=Year1997.Sitekig;
+
+  INPUT ---    glabel(5)=Year1998.Sitekig;
+
+  INPUT ---    glabel(6)=Year1999.Sitekig;
+
+  INPUT ---    glabel(7)=Year2000.Sitekig;
+
+  INPUT ---    glabel(8)=Year2001.Sitekig;
+
+  INPUT ---    glabel(9)=Year2002.Sitekig;
+
+  INPUT ---    glabel(10)=Year2003.Sitekig;
+
+  INPUT ---    glabel(11)=Year2004.Sitekig;
+
+  INPUT ---    glabel(12)=Year2005.Sitekig;
+
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  002
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---    glabel(13)=Year2006.Sitekig;
+
+  INPUT ---    glabel(14)=Year2007.Sitekig;
+
+  INPUT ---    glabel(15)=Year2008.Sitekig;
+
+  INPUT ---    glabel(16)=Year2009.Sitekig;
+
+  INPUT ---    glabel(17)=Year2010.Sitekig;
+
+  INPUT ---    glabel(18)=Year2011.Sitekig;
+
+  INPUT ---    glabel(19)=Year2012.Sitekig;
+
+  INPUT ---    glabel(20)=Year2013.Sitekig;
+
+  INPUT ---    glabel(21)=Year2014.Sitekig;
+
+  INPUT ---    glabel(22)=Year2015.Sitekig;
+
+  INPUT ---    glabel(23)=Year2010.Siteutq;
+
+  INPUT ---    glabel(24)=Year2011.Siteutq;
+
+  INPUT ---    glabel(25)=Year2012.Siteutq;
+
+  INPUT ---    glabel(26)=Year2013.Siteutq;
+
+  INPUT ---    glabel(27)=Year2014.Siteutq;
+
+  INPUT ---    glabel(28)=Year2015.Siteutq;
+
+  INPUT ---    glabel(29)=Year2016.Siteutq;
+
+  INPUT ---    glabel(30)=Year2017.Siteutq;
+
+  INPUT ---    glabel(31)=Year2018.Siteutq;
+
+      Number of unique encounter histories read was 954.
+
+      Number of individual covariates read was 0.
+      Time interval lengths are all equal to 1.
+
+      Data type number is 24
+      Data type is Nest Success                                                                                        
+
+   CPU Time for the last procedure was 0.08 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
+
+
+  INPUT --- model={ S(~-1 + Site:Year) };
+
+  INPUT ---    group=1 S    rows=1 cols=74 Square ;
+  INPUT ---        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  INPUT ---       1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  INPUT ---       1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ;
+
+  INPUT ---    group=2 S    rows=1 cols=74 Square ;
+  INPUT ---        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+  INPUT ---       2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+  INPUT ---       2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 ;
+
+  INPUT ---    group=3 S    rows=1 cols=74 Square ;
+  INPUT ---        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+  INPUT ---       3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+  INPUT ---       3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 ;
+
+  INPUT ---    group=4 S    rows=1 cols=74 Square ;
+  INPUT ---        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+  INPUT ---       4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+  INPUT ---       4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 ;
+
+  INPUT ---    group=5 S    rows=1 cols=74 Square ;
+  INPUT ---        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+  INPUT ---       5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+  INPUT ---       5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 ;
+
+  INPUT ---    group=6 S    rows=1 cols=74 Square ;
+  INPUT ---        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+  INPUT ---       6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+  INPUT ---       6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 ;
+
+  INPUT ---    group=7 S    rows=1 cols=74 Square ;
+  INPUT ---        7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+  INPUT ---       7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+  INPUT ---       7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 ;
+
+  INPUT ---    group=8 S    rows=1 cols=74 Square ;
+  INPUT ---        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+  INPUT ---       8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+  INPUT ---       8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 ;
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+  INPUT ---    group=9 S    rows=1 cols=74 Square ;
+  INPUT ---        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+  INPUT ---       9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+  INPUT ---       9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 ;
+
+  INPUT ---    group=10 S    rows=1 cols=74 Square ;
+  INPUT ---        10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 
+  INPUT ---       10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 
+  INPUT ---       10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 
+  INPUT ---       10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 ;
+
+  INPUT ---    group=11 S    rows=1 cols=74 Square ;
+  INPUT ---        11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 
+  INPUT ---       11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 
+  INPUT ---       11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 
+  INPUT ---       11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 ;
+
+  INPUT ---    group=12 S    rows=1 cols=74 Square ;
+  INPUT ---        12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 
+  INPUT ---       12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 
+  INPUT ---       12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 
+  INPUT ---       12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 ;
+
+  INPUT ---    group=13 S    rows=1 cols=74 Square ;
+  INPUT ---        13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 
+  INPUT ---       13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 
+  INPUT ---       13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 
+  INPUT ---       13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 ;
+
+  INPUT ---    group=14 S    rows=1 cols=74 Square ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 
+  INPUT ---       14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 
+  INPUT ---       14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 
+  INPUT ---       14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 ;
+
+  INPUT ---    group=15 S    rows=1 cols=74 Square ;
+  INPUT ---        15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 
+  INPUT ---       15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 
+  INPUT ---       15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 
+  INPUT ---       15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 ;
+
+  INPUT ---    group=16 S    rows=1 cols=74 Square ;
+  INPUT ---        16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 
+  INPUT ---       16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 
+  INPUT ---       16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  005
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---       16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 ;
+
+  INPUT ---    group=17 S    rows=1 cols=74 Square ;
+  INPUT ---        17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
+  INPUT ---       17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
+  INPUT ---       17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
+  INPUT ---       17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 ;
+
+  INPUT ---    group=18 S    rows=1 cols=74 Square ;
+  INPUT ---        18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 
+  INPUT ---       18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 
+  INPUT ---       18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 
+  INPUT ---       18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 ;
+
+  INPUT ---    group=19 S    rows=1 cols=74 Square ;
+  INPUT ---        19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 
+  INPUT ---       19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 
+  INPUT ---       19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 
+  INPUT ---       19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 ;
+
+  INPUT ---    group=20 S    rows=1 cols=74 Square ;
+  INPUT ---        20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 
+  INPUT ---       20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 
+  INPUT ---       20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 
+  INPUT ---       20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 ;
+
+  INPUT ---    group=21 S    rows=1 cols=74 Square ;
+  INPUT ---        21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 
+  INPUT ---       21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 
+  INPUT ---       21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 
+  INPUT ---       21 21 21 21 21 21 21 21 21 21 21 21 21 21 21 ;
+
+  INPUT ---    group=22 S    rows=1 cols=74 Square ;
+  INPUT ---        22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 
+  INPUT ---       22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 
+  INPUT ---       22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 
+  INPUT ---       22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 ;
+
+  INPUT ---    group=23 S    rows=1 cols=74 Square ;
+  INPUT ---        23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 
+  INPUT ---       23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 
+  INPUT ---       23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 
+  INPUT ---       23 23 23 23 23 23 23 23 23 23 23 23 23 23 23 ;
+
+  INPUT ---    group=24 S    rows=1 cols=74 Square ;
+  INPUT ---        24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  006
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---       24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 
+  INPUT ---       24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 
+  INPUT ---       24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 ;
+
+  INPUT ---    group=25 S    rows=1 cols=74 Square ;
+  INPUT ---        25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 
+  INPUT ---       25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 
+  INPUT ---       25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 
+  INPUT ---       25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 ;
+
+  INPUT ---    group=26 S    rows=1 cols=74 Square ;
+  INPUT ---        26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 
+  INPUT ---       26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 
+  INPUT ---       26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 
+  INPUT ---       26 26 26 26 26 26 26 26 26 26 26 26 26 26 26 ;
+
+  INPUT ---    group=27 S    rows=1 cols=74 Square ;
+  INPUT ---        27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 
+  INPUT ---       27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 
+  INPUT ---       27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 
+  INPUT ---       27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 ;
+
+  INPUT ---    group=28 S    rows=1 cols=74 Square ;
+  INPUT ---        28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 
+  INPUT ---       28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 
+  INPUT ---       28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 
+  INPUT ---       28 28 28 28 28 28 28 28 28 28 28 28 28 28 28 ;
+
+  INPUT ---    group=29 S    rows=1 cols=74 Square ;
+  INPUT ---        29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 
+  INPUT ---       29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 
+  INPUT ---       29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 
+  INPUT ---       29 29 29 29 29 29 29 29 29 29 29 29 29 29 29 ;
+
+  INPUT ---    group=30 S    rows=1 cols=74 Square ;
+  INPUT ---        30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 
+  INPUT ---       30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 
+  INPUT ---       30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 
+  INPUT ---       30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 ;
+
+  INPUT ---    group=31 S    rows=1 cols=74 Square ;
+  INPUT ---        31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 
+  INPUT ---       31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 
+  INPUT ---       31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 
+  INPUT ---       31 31 31 31 31 31 31 31 31 31 31 31 31 31 31 ;
+
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  007
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---    design matrix constraints=31 covariates=31;
+  INPUT ---        1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  008
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+  INPUT ---       0 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       1 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+  INPUT ---       0 1;
+  INPUT ---       blabel(1)=S:Sitekig:Year1994;
+  INPUT ---       blabel(2)=S:Sitekig:Year1995;
+  INPUT ---       blabel(3)=S:Sitekig:Year1996;
+  INPUT ---       blabel(4)=S:Sitekig:Year1997;
+  INPUT ---       blabel(5)=S:Sitekig:Year1998;
+  INPUT ---       blabel(6)=S:Sitekig:Year1999;
+  INPUT ---       blabel(7)=S:Sitekig:Year2000;
+  INPUT ---       blabel(8)=S:Sitekig:Year2001;
+  INPUT ---       blabel(9)=S:Sitekig:Year2002;
+  INPUT ---       blabel(10)=S:Sitekig:Year2003;
+  INPUT ---       blabel(11)=S:Sitekig:Year2004;
+  INPUT ---       blabel(12)=S:Sitekig:Year2005;
+  INPUT ---       blabel(13)=S:Sitekig:Year2006;
+  INPUT ---       blabel(14)=S:Sitekig:Year2007;
+  INPUT ---       blabel(15)=S:Sitekig:Year2008;
+  INPUT ---       blabel(16)=S:Sitekig:Year2009;
+  INPUT ---       blabel(17)=S:Sitekig:Year2010;
+  INPUT ---       blabel(18)=S:Siteutq:Year2010;
+  INPUT ---       blabel(19)=S:Sitekig:Year2011;
+  INPUT ---       blabel(20)=S:Siteutq:Year2011;
+  INPUT ---       blabel(21)=S:Sitekig:Year2012;
+  INPUT ---       blabel(22)=S:Siteutq:Year2012;
+  INPUT ---       blabel(23)=S:Sitekig:Year2013;
+  INPUT ---       blabel(24)=S:Siteutq:Year2013;
+  INPUT ---       blabel(25)=S:Sitekig:Year2014;
+  INPUT ---       blabel(26)=S:Siteutq:Year2014;
+  INPUT ---       blabel(27)=S:Sitekig:Year2015;
+  INPUT ---       blabel(28)=S:Siteutq:Year2015;
+  INPUT ---       blabel(29)=S:Siteutq:Year2016;
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:38    Page  009
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---       blabel(30)=S:Siteutq:Year2017;
+  INPUT ---       blabel(31)=S:Siteutq:Year2018;
+  INPUT ---       rlabel(1)=S g1994kig a0 t1;
+  INPUT ---       rlabel(2)=S g1995kig a0 t1;
+  INPUT ---       rlabel(3)=S g1996kig a0 t1;
+  INPUT ---       rlabel(4)=S g1997kig a0 t1;
+  INPUT ---       rlabel(5)=S g1998kig a0 t1;
+  INPUT ---       rlabel(6)=S g1999kig a0 t1;
+  INPUT ---       rlabel(7)=S g2000kig a0 t1;
+  INPUT ---       rlabel(8)=S g2001kig a0 t1;
+  INPUT ---       rlabel(9)=S g2002kig a0 t1;
+  INPUT ---       rlabel(10)=S g2003kig a0 t1;
+  INPUT ---       rlabel(11)=S g2004kig a0 t1;
+  INPUT ---       rlabel(12)=S g2005kig a0 t1;
+  INPUT ---       rlabel(13)=S g2006kig a0 t1;
+  INPUT ---       rlabel(14)=S g2007kig a0 t1;
+  INPUT ---       rlabel(15)=S g2008kig a0 t1;
+  INPUT ---       rlabel(16)=S g2009kig a0 t1;
+  INPUT ---       rlabel(17)=S g2010kig a0 t1;
+  INPUT ---       rlabel(18)=S g2011kig a0 t1;
+  INPUT ---       rlabel(19)=S g2012kig a0 t1;
+  INPUT ---       rlabel(20)=S g2013kig a0 t1;
+  INPUT ---       rlabel(21)=S g2014kig a0 t1;
+  INPUT ---       rlabel(22)=S g2015kig a0 t1;
+  INPUT ---       rlabel(23)=S g2010utq a0 t1;
+  INPUT ---       rlabel(24)=S g2011utq a0 t1;
+  INPUT ---       rlabel(25)=S g2012utq a0 t1;
+  INPUT ---       rlabel(26)=S g2013utq a0 t1;
+  INPUT ---       rlabel(27)=S g2014utq a0 t1;
+  INPUT ---       rlabel(28)=S g2015utq a0 t1;
+  INPUT ---       rlabel(29)=S g2016utq a0 t1;
+  INPUT ---       rlabel(30)=S g2017utq a0 t1;
+  INPUT ---       rlabel(31)=S g2018utq a0 t1;
+
+ Link Function Used is LOGIT        
+
+ Variance Estimation Procedure Used is 2ndPart 
+ -2logL(saturated) = 0.0000000     
+ Effective Sample Size = 35884
+
+ Number of function evaluations was 120 for 31 parameters.
+ CPU Time for numerical optimization was 3.89 seconds.     
+ -2logL { S(~-1 + Site:Year) } = 3502.6585     
+ Penalty { S(~-1 + Site:Year) } = 0.0000000     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:39    Page  010
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+ Gradient { S(~-1 + Site:Year) }:
+   0.000000      0.6029969E-05  0.1053767E-04   0.000000      0.1031049E-04
+  0.1183360E-04  0.1055540E-04 -0.1228511E-04   0.000000      0.6815694E-05
+  0.1626842E-04  0.1000484E-04   0.000000     -0.9140585E-05  0.1201752E-04
+ -0.5959127E-05   0.000000      0.7576146E-05  0.1854132E-04   0.000000    
+  0.1163271E-04   0.000000       0.000000       0.000000      0.6135539E-05
+  0.1221483E-04  0.2782271E-04  0.5750379E-05  0.1601449E-04   0.000000    
+   0.000000    
+ Maximum ABS(G) { S(~-1 + Site:Year) } = 0.2782271E-04 
+ CPU Time to compute VC matrix was 1.47 seconds.     
+ S Vector { S(~-1 + Site:Year) }:
+   52.25048      38.51588      32.38571      30.45121      28.63244    
+   27.37046      23.73493      23.61588      23.55575      21.79884    
+   21.59119      19.63206      18.80799      18.75507      15.86311    
+   15.86028      15.75591      13.69943      12.63006      11.92658    
+   11.90985      9.965314      9.340501      7.525706      6.636718    
+   5.812757      3.922406      3.879559      3.867966      2.897928    
+   1.972659    
+ CPU Time to invert VC matrix was 0.01 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (26/27) = 1.4819365       Next Max Gap (30/31) = 1.4690465     
+ Gap Method for Num. of Estimated Parameters { S(~-1 + Site:Year) } = 31          
+ Threshold { S(~-1 + Site:Year) } = 0.5564541E-04                 
+ Numerical Threshold Method for Num. of Estimated Parameters { S(~-1 + Site:Year) } = 31          
+ Number of Estimated Parameters { S(~-1 + Site:Year) } = 31          
+ DEVIANCE { S(~-1 + Site:Year) } = 3502.6585                     
+ DEVIANCE Degrees of Freedom { S(~-1 + Site:Year) } = 29543            
+ c-hat { S(~-1 + Site:Year) } = 0.1185614                     
+ AIC { S(~-1 + Site:Year) } = 3564.6585                  
+ AICc { S(~-1 + Site:Year) } = 3564.7138                    
+ BIC { S(~-1 + Site:Year) } = 3827.7879                    
+ Pearson Chisquare { S(~-1 + Site:Year) } = 43227.100                  
+
+
+                    LOGIT Link Function Parameters of { S(~-1 + Site:Year) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:S:Sitekig:Year1994     4.0602521       0.2256925       3.6178948       4.5026093    
+    2:S:Sitekig:Year1995     4.0609846       0.2060400       3.6571463       4.4648230    
+    3:S:Sitekig:Year1996     4.7920947       0.2510764       4.2999849       5.2842044    
+    4:S:Sitekig:Year1997     4.7044321       0.2141821       4.2846351       5.1242291    
+    5:S:Sitekig:Year1998     4.9197138       0.2897656       4.3517733       5.4876544    
+    6:S:Sitekig:Year1999     4.1577845       0.1812165       3.8026001       4.5129688    
+    7:S:Sitekig:Year2000     4.7823617       0.2510988       4.2902081       5.2745153    
+    8:S:Sitekig:Year2001     1.4841118       0.2519290       0.9903309       1.9778928    
+    9:S:Sitekig:Year2002     4.5515068       0.2052608       4.1491955       4.9538180    
+   10:S:Sitekig:Year2003     3.4775450       0.1383423       3.2063942       3.7486959    
+   11:S:Sitekig:Year2004     4.6276354       0.2305838       4.1756911       5.0795797    
+   12:S:Sitekig:Year2005     5.1005660       0.2895623       4.5330238       5.6681082    
+   13:S:Sitekig:Year2006     4.4309150       0.1868834       4.0646235       4.7972066    
+   14:S:Sitekig:Year2007     5.6773795       0.3167776       5.0564953       6.2982637    
+   15:S:Sitekig:Year2008     4.0788498       0.1757208       3.7344370       4.4232627    
+   16:S:Sitekig:Year2009     4.1211494       0.2152096       3.6993385       4.5429603    
+   17:S:Sitekig:Year2010     4.4499116       0.2309089       3.9973302       4.9024931    
+   18:S:Siteutq:Year2010     3.0281139       0.3881712       2.2672983       3.7889295    
+   19:S:Sitekig:Year2011     3.9377686       0.1911432       3.5631278       4.3124093    
+   20:S:Siteutq:Year2011     3.6491675       0.5084622       2.6525816       4.6457535    
+   21:S:Sitekig:Year2012     4.2468540       0.2057775       3.8435300       4.6501779    
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:39    Page  011
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   22:S:Siteutq:Year2012     3.5141109       0.4147715       2.7011587       4.3270631    
+   23:S:Sitekig:Year2013     3.6376858       0.2813826       3.0861759       4.1891957    
+   24:S:Siteutq:Year2013     2.9747826       0.3645242       2.2603152       3.6892501    
+   25:S:Sitekig:Year2014     3.9739030       0.2701772       3.4443556       4.5034503    
+   26:S:Siteutq:Year2014     3.9968086       0.5049213       3.0071627       4.9864544    
+   27:S:Sitekig:Year2015     2.2905761       0.1611314       1.9747587       2.6063936    
+   28:S:Siteutq:Year2015     4.3070553       0.7119902       2.9115546       5.7025560    
+   29:S:Siteutq:Year2016     2.8112458       0.3272012       2.1699314       3.4525602    
+   30:S:Siteutq:Year2017     3.4769981       0.5874301       2.3256350       4.6283612    
+   31:S:Siteutq:Year2018     3.6426210       0.5077019       2.6475252       4.6377168    
+
+
+                    Real Function Parameters of { S(~-1 + Site:Year) }
+                                                               95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:S g1994kig a0 t1       0.9830477       0.0037612       0.9738624       0.9890414                          
+     2:S g1995kig a0 t1       0.9830599       0.0034312       0.9748431       0.9886242                          
+     3:S g1996kig a0 t1       0.9917732       0.0020486       0.9866129       0.9949545                          
+     4:S g1997kig a0 t1       0.9910262       0.0019048       0.9864086       0.9940844                          
+     5:S g1998kig a0 t1       0.9927517       0.0020851       0.9872799       0.9958795                          
+     6:S g1999kig a0 t1       0.9845987       0.0027480       0.9781743       0.9891531                          
+     7:S g2000kig a0 t1       0.9916934       0.0020685       0.9864831       0.9949056                          
+     8:S g2001kig a0 t1       0.8151928       0.0379540       0.7291533       0.8784564                          
+     9:S g2002kig a0 t1       0.9895589       0.0021208       0.9844679       0.9929930                          
+    10:S g2003kig a0 t1       0.9700421       0.0040203       0.9610742       0.9769933                          
+    11:S g2004kig a0 t1       0.9903168       0.0022112       0.9848679       0.9938160                          
+    12:S g2005kig a0 t1       0.9939436       0.0017431       0.9893662       0.9965575                          
+    13:S g2006kig a0 t1       0.9882364       0.0021726       0.9831204       0.9918148                          
+    14:S g2007kig a0 t1       0.9965892       0.0010768       0.9936725       0.9981639                          
+    15:S g2008kig a0 t1       0.9833548       0.0028762       0.9766706       0.9881471                          
+    16:S g2009kig a0 t1       0.9840332       0.0033813       0.9758574       0.9894702                          
+    17:S g2010kig a0 t1       0.9884552       0.0026350       0.9819666       0.9926267                          
+    18:S g2011kig a0 t1       0.9808810       0.0035846       0.9724316       0.9867760                          
+    19:S g2012kig a0 t1       0.9858927       0.0028620       0.9790312       0.9905306                          
+    20:S g2013kig a0 t1       0.9743615       0.0070293       0.9563189       0.9850679                          
+    21:S g2014kig a0 t1       0.9815470       0.0048936       0.9690624       0.9890505                          
+    22:S g2015kig a0 t1       0.9080935       0.0134480       0.8781213       0.9312719                          
+    23:S g2010utq a0 t1       0.9538282       0.0170951       0.9061322       0.9778805                          
+    24:S g2011utq a0 t1       0.9746467       0.0125643       0.9341699       0.9904890                          
+    25:S g2012utq a0 t1       0.9710866       0.0116457       0.9370950       0.9869659                          
+    26:S g2013utq a0 t1       0.9514218       0.0168477       0.9055366       0.9756186                          
+    27:S g2014utq a0 t1       0.9819573       0.0089458       0.9528967       0.9932165                          
+    28:S g2015utq a0 t1       0.9867059       0.0093394       0.9484147       0.9966737                          
+    29:S g2016utq a0 t1       0.9432805       0.0175060       0.8975167       0.9693074                          
+    30:S g2017utq a0 t1       0.9700262       0.0170798       0.9109780       0.9903238                          
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:39    Page  012
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+    31:S g2018utq a0 t1       0.9744845       0.0126238       0.9338583       0.9904130                          
+
+
+                     Estimates of Derived Parameters
+
+              Survival Estimates of { S(~-1 + Site:Year) }
+
+       Pr. Surviving
+        Duration of                   95% Confidence Interval
+ Group     Study      Standard Error     Lower          Upper     
+ ----- -------------- -------------- -------------- --------------
+   1    0.2821751      0.0798906      0.1535844      0.4599273    
+   2    0.2824344      0.0729485      0.1627494      0.4435112    
+   3    0.5426434      0.0829437      0.3812952      0.6955154    
+   4    0.5132160      0.0729946      0.3728987      0.6514807    
+   5    0.5837238      0.0907239      0.4028234      0.7445726    
+   6    0.3170927      0.0654894      0.2042525      0.4565090    
+   7    0.5394222      0.0832585      0.3778196      0.6931413    
+   8    0.2711856E-06  0.9344016E-06  0.3164448E-09  0.2323457E-03
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:39    Page  013
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   9    0.4599188      0.0729399      0.3238319      0.6022570    
+  10    0.1053178      0.0322998      0.0567136      0.1873053    
+  11    0.4867296      0.0804202      0.3353618      0.6405713    
+  12    0.6379242      0.0827860      0.4660198      0.7805480    
+  13    0.4165852      0.0677711      0.2924853      0.5522409    
+  14    0.7765970      0.0620932      0.6328503      0.8751655    
+  15    0.2887745      0.0625030      0.1827514      0.4243673    
+  16    0.3038941      0.0772737      0.1758408      0.4718149    
+  17    0.4234660      0.0835362      0.2730509      0.5895429    
+  18    0.2396668      0.0648131      0.1356821      0.3876055    
+  19    0.3494569      0.0750700      0.2194887      0.5064482    
+  20    0.1463145      0.0781104      0.0479029      0.3686255    
+  21    0.2520121      0.0929753      0.1135839      0.4697435    
+  22    0.7973768E-03  0.8738437E-03  0.9297751E-04  0.0068020    
+  23    0.0302546      0.0401259      0.0021332      0.3128594    
+  24    0.1495186      0.1426325      0.0191368      0.6130280    
+  25    0.1140485      0.1012112      0.0177522      0.4783272    
+  26    0.0250963      0.0328860      0.0018438      0.2640290    
+  27    0.2599284      0.1752301      0.0556325      0.6767917    
+  28    0.3714439      0.2601688      0.0623780      0.8399801    
+  29    0.0132869      0.0182476      0.8791961E-03  0.1708553    
+  30    0.1051902      0.1370582      0.0067272      0.6711004    
+  31    0.1476876      0.1415756      0.0187559      0.6110203    
+
+   CPU Time for the last procedure was 5.39 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Jan 2019     1-Mar-2022 15:56:39    Page  014
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc stop;
+
+     CPU Time in minutes for this job was 0.09
+
+     Time Start = 15:56:38.232   Time End = 15:56:39.574
+
+     Wall Clock Time in minutes for this job was 0.02
+
+
+          E X E C U T I O N   S U C C E S S F U L 

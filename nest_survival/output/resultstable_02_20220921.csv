@@ -1,0 +1,7 @@
+,S,model,Models,npar,AICc,DeltaAICc,weight,Deviance
+3,~sxt + sxw + Win_Hi + Win_Hi2 + Init + NestAge + Site,S.stswwhwh2ins,SPRING TEMP + SPRING WIND + WINTER HIGH + WINTER HIGH2 + INIT + NESTAGE + site,8,4141.656133,0,0.896438501,4125.6525
+2,~sxt + sxw + Win_Hi + Init + NestAge + Site,S.stswwhins,SPRING TEMP + SPRING WIND + WINTER HIGH + INIT + NESTAGE + site,7,4145.978525,4.322392684,0.103258272,4131.9757
+5,~Win_Hi + Win_Hi2 + Init + NestAge + Site,S.whwh2ins,WINTER HIGH + WINTER HIGH2 + INIT + NESTAGE  + sit,6,4158.047119,16.39098631,0.000247322,4146.045
+4,~Win_Hi + Init + NestAge + Site,S.whins,WINTER HIGH + INIT + NESTAGE + site,5,4161.021213,19.36508087,5.59E-05,4151.0197
+6,~wsi + Init + NestAge + Site,S.wsiins,ICE INDEX + INIT + NESTAGE + site,5,4185.932713,44.27658087,2.18E-10,4175.9312
+1,~1,S.dot,1,1,4294.890901,153.2347683,0,4292.8908

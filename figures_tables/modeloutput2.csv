@@ -1,0 +1,25 @@
+"","S","model","npar","AICc","DeltaAICc","weight","Deviance"
+"21","~Site + Win_Lo + Win_Lo2 + Site * Win_Lo + Site * Win_Lo2","S(~Site + Win_Lo + Win_Lo2 + Site * Win_Lo + Site * Win_Lo2)",6,4132.68981891128,0,0.999999999999997,4120.6877
+"20","~Site + Win_Hi + Win_Hi2 + Site * Win_Hi + Site * Win_Hi2","S(~Site + Win_Hi + Win_Hi2 + Site * Win_Hi + Site * Win_Hi2)",6,4199.93401891128,67.2441999999992,2.50096434353622e-15,4187.9319
+"10","~Site + Win_Lo","S(~Site + Win_Lo)",3,4206.55980535741,73.8699864461296,0,4200.5592
+"11","~Site + Win_Lo + Win_Lo2","S(~Site + Win_Lo + Win_Lo2)",4,4207.17300895447,74.4831900431873,0,4199.172
+"9","~Site + Win_Hi + Win_Hi2","S(~Site + Win_Hi + Win_Hi2)",4,4214.65650895447,81.9666900431876,0,4206.6555
+"8","~Site + Win_Hi","S(~Site + Win_Hi)",3,4221.54000535741,88.8501864461296,0,4215.5394
+"23","~Site + wxt + wxw + Site * wxt + Site * wxw","S(~Site + wxt + wxw + Site * wxt + Site * wxw)",6,4224.99021891128,92.3003999999992,0,4212.9881
+"16","~Site + Spr_Lo + Spr_Lo2 + Site * Spr_Lo + Site * Spr_Lo2","S(~Site + Spr_Lo + Spr_Lo2 + Site * Spr_Lo + Site * Spr_Lo2)",6,4232.77951891128,100.0897,0,4220.7774
+"13","~Site + wxt + wxw","S(~Site + wxt + wxw)",4,4239.06330895447,106.373490043187,0,4231.0623
+"4","~Site + Spr_Lo + Spr_Lo2","S(~Site + Spr_Lo + Spr_Lo2)",4,4240.28080895447,107.590990043188,0,4232.2798
+"24","~Site + wxw + Site * wxw","S(~Site + wxw + Site * wxw)",4,4256.06070895447,123.370890043188,0,4248.0597
+"22","~Site + wxt + Site * wxt","S(~Site + wxt + Site * wxt)",4,4257.69090895447,125.001090043188,0,4249.6899
+"14","~Site + wxw","S(~Site + wxw)",3,4261.35520535741,128.66538644613,0,4255.3546
+"12","~Site + wxt","S(~Site + wxt)",3,4261.36940535741,128.67958644613,0,4255.3688
+"3","~Site + Spr_Lo","S(~Site + Spr_Lo)",3,4263.92490535741,131.23508644613,0,4257.9243
+"19","~Site + sxw + Site * sxw","S(~Site + sxw + Site * sxw)",4,4265.06780895447,132.377990043187,0,4257.0668
+"7","~Site + sxw","S(~Site + sxw)",3,4266.54310535741,133.853286446129,0,4260.5425
+"18","~Site + sxt + sxw + Site * sxt + Site * sxw","S(~Site + sxt + sxw + Site * sxt + Site * sxw)",6,4267.29731891128,134.607499999999,0,4255.2952
+"6","~Site + sxt + sxw","S(~Site + sxt + sxw)",4,4267.97800895447,135.288190043188,0,4259.977
+"2","~Site + Spr_Hi + Spr_Hi2","S(~Site + Spr_Hi + Spr_Hi2)",4,4271.12130895447,138.431490043187,0,4263.1203
+"15","~Site + Spr_Hi + Spr_Hi2 + Site * Spr_Hi + Site * Spr_Hi2","S(~Site + Spr_Hi + Spr_Hi2 + Site * Spr_Hi + Site * Spr_Hi2)",6,4271.68901891128,138.999199999999,0,4259.6869
+"1","~Site + Spr_Hi","S(~Site + Spr_Hi)",3,4274.59170535741,141.90188644613,0,4268.5911
+"17","~Site + sxt + Site * sxt","S(~Site + sxt + Site * sxt)",4,4274.96350895447,142.273690043187,0,4266.9625
+"5","~Site + sxt","S(~Site + sxt)",3,4275.12460535741,142.43478644613,0,4269.124
