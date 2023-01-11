@@ -4,6 +4,7 @@
 library(lme4) #used for modeling mixed effects models
 library(data.table) #for easy data manipulation and visuals
 library(corrplot) #to create correlation plot
+#library(workflowr) work?
 
 init_data <- read.csv("nest_initiation/data/initiation_wx.csv", header = TRUE)
 head(init_data)
