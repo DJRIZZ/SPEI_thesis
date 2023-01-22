@@ -16,7 +16,7 @@
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,6 +30,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -228,6 +229,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -250,12 +254,15 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">SPEI_thesis</a>
+      <a class="navbar-brand" href="index.html">Spectacled Eider carryover effects</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="fit_nest_survival.html">Nest Survival Analysis</a>
 </li>
 <li>
   <a href="about.html">About</a>
@@ -278,6 +285,14 @@ $(document).ready(function () {
 </div><!--/.navbar -->
 
 <div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
 
@@ -310,7 +325,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-01-21
+<strong>Last updated:</strong> 2023-01-22
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -357,15 +372,15 @@ results.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDJRIZZSPEIthesistree4b7836a778a49c1ebbc1658f97dd91b7d6d66653targetblank4b7836aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDJRIZZSPEIthesistreed790e3a0ea1151900e50f5a67d54fceb38e6ec89targetblankd790e3aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/DJRIZZ/SPEI_thesis/tree/4b7836a778a49c1ebbc1658f97dd91b7d6d66653" target="_blank">4b7836a</a>
+<a href="https://github.com/DJRIZZ/SPEI_thesis/tree/d790e3a0ea1151900e50f5a67d54fceb38e6ec89" target="_blank">d790e3a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomDJRIZZSPEIthesistree4b7836a778a49c1ebbc1658f97dd91b7d6d66653targetblank4b7836aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomDJRIZZSPEIthesistreed790e3a0ea1151900e50f5a67d54fceb38e6ec89targetblankd790e3aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -375,7 +390,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/DJRIZZ/SPEI_thesis/tree/4b7836a778a49c1ebbc1658f97dd91b7d6d66653" target="_blank">4b7836a</a>.
+<a href="https://github.com/DJRIZZ/SPEI_thesis/tree/d790e3a0ea1151900e50f5a67d54fceb38e6ec89" target="_blank">d790e3a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -400,9 +415,6 @@ Untracked files:
     Untracked:  .gitignore
     Untracked:  SPEI_thesis.Rproj
     Untracked:  _workflowr.yml
-    Untracked:  analysis/about.Rmd
-    Untracked:  analysis/fit_nest_survival.Rmd
-    Untracked:  analysis/index.Rmd
     Untracked:  analysis/workflowr_commands_spei_thesis.R
     Untracked:  code/
     Untracked:  data/
@@ -537,12 +549,116 @@ Untracked files:
     Untracked:  mark032.vcv
     Untracked:  mark033.inp
     Untracked:  mark033.out
+    Untracked:  mark033.res
+    Untracked:  mark033.vcv
+    Untracked:  mark034.inp
+    Untracked:  mark034.out
+    Untracked:  mark034.res
+    Untracked:  mark034.vcv
+    Untracked:  mark035.inp
+    Untracked:  mark035.out
+    Untracked:  mark035.res
+    Untracked:  mark035.vcv
+    Untracked:  mark036.inp
+    Untracked:  mark036.out
+    Untracked:  mark036.res
+    Untracked:  mark036.vcv
+    Untracked:  mark037.inp
+    Untracked:  mark037.out
+    Untracked:  mark037.res
+    Untracked:  mark037.vcv
+    Untracked:  mark038.inp
+    Untracked:  mark038.out
+    Untracked:  mark038.res
+    Untracked:  mark038.vcv
+    Untracked:  mark039.inp
+    Untracked:  mark039.out
+    Untracked:  mark039.res
+    Untracked:  mark039.vcv
+    Untracked:  mark040.inp
+    Untracked:  mark040.out
+    Untracked:  mark040.res
+    Untracked:  mark040.vcv
+    Untracked:  mark041.inp
+    Untracked:  mark041.out
+    Untracked:  mark041.res
+    Untracked:  mark041.vcv
+    Untracked:  mark042.inp
+    Untracked:  mark042.out
+    Untracked:  mark042.res
+    Untracked:  mark042.vcv
+    Untracked:  mark043.inp
+    Untracked:  mark043.out
+    Untracked:  mark043.res
+    Untracked:  mark043.vcv
+    Untracked:  mark044.inp
+    Untracked:  mark044.out
+    Untracked:  mark044.res
+    Untracked:  mark044.vcv
+    Untracked:  mark045.inp
+    Untracked:  mark045.out
+    Untracked:  mark045.res
+    Untracked:  mark045.vcv
+    Untracked:  mark046.inp
+    Untracked:  mark046.out
+    Untracked:  mark046.res
+    Untracked:  mark046.vcv
+    Untracked:  mark047.inp
+    Untracked:  mark047.out
+    Untracked:  mark047.res
+    Untracked:  mark047.vcv
+    Untracked:  mark048.inp
+    Untracked:  mark048.out
+    Untracked:  mark048.res
+    Untracked:  mark048.vcv
+    Untracked:  mark049.inp
+    Untracked:  mark049.out
+    Untracked:  mark049.res
+    Untracked:  mark049.vcv
+    Untracked:  mark050.inp
+    Untracked:  mark050.out
+    Untracked:  mark050.res
+    Untracked:  mark050.vcv
+    Untracked:  mark051.inp
+    Untracked:  mark051.out
+    Untracked:  mark051.res
+    Untracked:  mark051.vcv
+    Untracked:  mark052.inp
+    Untracked:  mark052.out
+    Untracked:  mark052.res
+    Untracked:  mark052.vcv
+    Untracked:  mark053.inp
+    Untracked:  mark053.out
+    Untracked:  mark053.res
+    Untracked:  mark053.vcv
+    Untracked:  mark054.inp
+    Untracked:  mark054.out
+    Untracked:  mark054.res
+    Untracked:  mark054.vcv
+    Untracked:  mark055.inp
+    Untracked:  mark055.out
+    Untracked:  mark055.res
+    Untracked:  mark055.vcv
+    Untracked:  mark056.inp
+    Untracked:  mark056.out
+    Untracked:  mark056.res
+    Untracked:  mark056.vcv
+    Untracked:  mark057.inp
+    Untracked:  mark057.out
+    Untracked:  mark057.res
+    Untracked:  mark057.vcv
+    Untracked:  mark058.inp
+    Untracked:  mark058.out
+    Untracked:  mark058.res
+    Untracked:  mark058.vcv
     Untracked:  nest_survival/output/figures/
     Untracked:  output/
     Untracked:  spring_extreme_temp.jpg
     Untracked:  spring_extreme_wind.jpg
 
 Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   analysis/fit_nest_survival.Rmd
     Modified:   nest_initiation_date.jpg
     Modified:   nest_success_prob.jpg
 
@@ -590,6 +706,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DJRIZZ/SPEI_thesis/e30dc926bf22e6b79655463abbc9a6bb60d4d3c6/docs/license.html" target="_blank">e30dc92</a>
+</td>
+<td>
+DJRIZZ
+</td>
+<td>
+2023-01-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -673,6 +806,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
