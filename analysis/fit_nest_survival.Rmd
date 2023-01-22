@@ -1,10 +1,8 @@
 ---
 title: "fit_nest_survival"
 author: "Randall Friendly"
-date: "2023-01-20"
-output:
-  workflowr::wflow_html:
-    toc: false
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
@@ -59,6 +57,7 @@ spei_data$Spr_Hi2<-spei_data$Spr_Hi^2
 spei_data$Spr_Lo2<-spei_data$Spr_Lo^2
 head(spei_data) #these two columns are now in the dataframe
 ```
+
 Next fit models with temporal explanatory variables.
 
 ```{r fit model set 1}
@@ -204,6 +203,7 @@ model.resultst$S.sxy.in.sxi.sxn #19
 sp_temp_modeloutput1 <- model.resultst$model.table
 write.csv(sp_temp_modeloutput1, "nest_survival/output/sp_temp_modeloutput1.csv")
 ```
+
 Next fit models with best supported temporal x-vars in models supported in previous studies.
 
 
@@ -272,6 +272,7 @@ summary(spei_data)
 ##sxt: min=0   max=7
 ##sxw: min=0   max=5
 ```
+
 Plot some results. 
 
 ```{r create plots}
@@ -471,6 +472,7 @@ ggplot(init.survival, aes(x = init, y = dsr, color = Site)) +
   )
 ggsave("nest_survival/output/figures/nest_initiation_date.jpg",width = 8, height = 6, dpi = 220)
 ```
+
 Calculate nest survival (cumulative dsr)
 
 ```{r calculate nest survival}
@@ -668,7 +670,8 @@ data <- cbind(probsuccess,sqrt_s)
 data$lci <- data$probsuccess - 1.96*(data$sqrt_s/sqrt(24))
 data$uci <- data$probsuccess + 1.96*(data$sqrt_s/sqrt(24))
 ```
-Plot nest survival estiamtes
+
+Plot nest survival estimates
 
 ```{r plot nest survival with CIs}
 ####YOU CAN FINALLY PLOT THIS DAMN FIGURE####
@@ -714,6 +717,8 @@ kignestsuccess <- mean(data$probsuccess[1:24]) ##0.674130129
 utqnestsuccess <- mean(data$probsuccess[25:34]) ##0.7461755994
 
 ```
+
 Nest survival at Kigigak was `r kignestsuccess`.
+
 Nest survival at Utqiagvil was `r utqnestsuccess`
 
